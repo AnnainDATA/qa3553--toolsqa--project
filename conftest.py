@@ -1,16 +1,21 @@
 import pytest
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.support import wait
+
+from models.enums import Gender
 from models.student import Student
+from faker import Faker
+
+fake=Faker()
 
 
 @pytest.fixture
 def driver():
     options=Options()
     options.add_argument("--start-maximized")
-
-
     driver=webdriver.Chrome(options=options)
+    wait.WebDriverWait(driver, 10)
 
     yield driver
 
@@ -19,17 +24,18 @@ def driver():
 @pytest.fixture
 def student()->Student:
     return Student(
-        first_name = "Anna",
-        last_name = "Antonova",
-        email = "anna.anna@gmail.com",
-        gender = "female",
-        mobile = "0123456789",
+        first_name = fake.first_name(),
+        last_name = fake.last_name(),
+        email = fake.email(),
+        gender = Gender.MALE,
+        mobile = fake.numerify("##########"),
         date_of_birth = "22 Nov 1999",
-        subject = "Math, English, Histiry",
+        subject = "Maths, English, History",
         hobbies = "Sport",
         picture = "",
         curr_address = "Street 1",
         state = "NCR",
-        city = "Delhi")
+        city = "Delhi"
+    )
 
 
