@@ -1,9 +1,11 @@
+import time
+
 import pytest
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support import wait
 
-from models.enums import Gender
+from models.enums import Gender, Hobbies, StateCity
 from models.student import Student
 from faker import Faker
 
@@ -18,7 +20,7 @@ def driver():
     wait.WebDriverWait(driver, 10)
 
     yield driver
-
+    time.sleep(2)
     driver.quit()
 
 @pytest.fixture
@@ -31,11 +33,11 @@ def student()->Student:
         mobile = fake.numerify("##########"),
         date_of_birth = "22 Nov 1999",
         subject = "Maths, English, History",
-        hobbies = "Sport",
+        hobbies =[Hobbies.SPORTS, Hobbies.READING, Hobbies.MUSIC],
         picture = "",
         curr_address = "Street 1",
-        state = "NCR",
-        city = "Delhi"
+        state = StateCity.RAJASTHAN.state,
+        city = StateCity.RAJASTHAN.cities[0],
     )
 
 
